@@ -1,0 +1,24 @@
+<h1>Articles</h1>
+
+<ul class="flex gap-3 mt-4">
+    <% @articles.each do |article| %>
+        <li class="border w-64 h-64">
+            <a
+                href="<%= article_path(article) %>"
+                class="block h-full w-full font-bold flex items-center justify-center"
+            >
+                <span>
+                    <%= article.title %>
+                </span>
+            </a>
+        </li>
+    <% end %>
+    <li class="w-64 h-64 flex items-center justify-center">
+        <a
+            href="<%= new_article_path %>"
+            class="border rounded-full h-20 w-20 flex items-center justify-center"
+        >
+            +
+        </a>
+    </li>
+</ul>
