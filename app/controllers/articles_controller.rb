@@ -1,5 +1,5 @@
 class ArticlesController < ApplicationController
-    http_basic_authenticate_with name: "admin", password: "admin", except: [:index, :show]
+    http_basic_authenticate_with name: "admin", password: "admin", except: [:index, :show, :getArticles, :getArticle]
 
     def index
         @articles = Article.all
@@ -42,6 +42,14 @@ class ArticlesController < ApplicationController
         @article.destroy
 
         redirect_to root_path
+    end
+
+    def getArticles
+        render json: Article.all
+    end
+
+    def getArticle
+        render json: Article.find(params[:id])
     end
 
     private
