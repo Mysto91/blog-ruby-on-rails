@@ -1,5 +1,17 @@
 <% unless comment.archived? %>
     <li class="border h-64 w-64">
+        <p>
+            <div class="p-2 flex justify-end">
+                <%= link_to "X", 
+                    [comment.article, comment],
+                    class: "h-8 w-8 flex items-center justify-center hover:text-red-700",
+                    data: {
+                        turbo_method: :delete,
+                        turbo_confirm: "Are you sure?"
+                    } 
+                %>
+            </div>
+        </p>
         <p class="font-bold">
             <%= comment.commenter %>
         </p>
