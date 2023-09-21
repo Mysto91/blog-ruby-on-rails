@@ -1,43 +1,33 @@
-<h1><%= @article.title %></h1>
+<div class="space-y-10">
+    <h1 class="text-2xl font-bold">
+        <%= @article.title %>
+    </h1>
 
-<p><%= @article.body %></p>
+    <div>
+        <ul class="flex space-x-3">
+            <li>
+                <%= link_to "Edit", edit_article_path(@article) %>
+            </li>
+            <li>
+                <%= link_to "Destroy", article_path(@article), data: {
+                            turbo_method: :delete,
+                            turbo_confirm: "Are you sure?"
+                        } 
+                %>
+            </li>
+        </ul>
+        <p><%= @article.body %></p>
+    </div>
 
-<ul>
-    <li>
-        <%= link_to "Edit", edit_article_path(@article) %>
-    </li>
-    <li>
-        <%= link_to "Destroy", article_path(@article), data: {
-                    turbo_method: :delete,
-                    turbo_confirm: "Are you sure?"
-                } %>
-    </li>
-</ul>
+    <div>
+        <h2 class="font-bold">Comments</h2>
+        <ul class="mt-3 flex gap-3">
+            <%= render @article.comments %>
+        </ul>
+    </div>
 
-<h2>Comments</h2>
-<% @article.comments.each do |comment| %>
-  <p>
-    <strong>Commenter:</strong>
-    <%= comment.commenter %>
-  </p>
-
-  <p>
-    <strong>Comment:</strong>
-    <%= comment.body %>
-  </p>
-<% end %>
-
-<h2>Add a comment:</h2>
-<%= form_with model: [ @article, @article.comments.build ] do |form| %>
-  <p>
-    <%= form.label :commenter %><br>
-    <%= form.text_field :commenter %>
-  </p>
-  <p>
-    <%= form.label :body %><br>
-    <%= form.text_area :body %>
-  </p>
-  <p>
-    <%= form.submit %>
-  </p>
-<% end %>
+    <div>
+        <h2 class="font-bold">Add a comment:</h2>
+        <%= render 'comments/form' %>
+    </div>
+</div>
