@@ -1,9 +1,11 @@
-<li class="border h-64 w-64">
-    <p class="font-bold">
-        <%= comment.commenter %>
-    </p>
+<% unless comment.archived? %>
+    <li class="border h-64 w-64">
+        <p class="font-bold">
+            <%= comment.commenter %>
+        </p>
 
-    <p>
-        <%= comment.body %>
-    </p>
-</li>
+        <p>
+            <%= comment.body %>
+        </p>
+    </li>
+<% end %>

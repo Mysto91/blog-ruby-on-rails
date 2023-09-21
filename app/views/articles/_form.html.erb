@@ -16,6 +16,11 @@
   </div>
 
   <div>
+    <%= form.label :status %><br>
+    <%= form.select :status, Visible::VALID_STATUSES, selected: Visible::PUBLIC_STATUS %>
+  </div>
+
+  <div>
     <%= form.submit %>
   </div>
 <% end %>
