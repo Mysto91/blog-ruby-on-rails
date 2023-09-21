@@ -13,6 +13,20 @@
 
   <body>
     <main class="container mx-auto mt-28 px-5">
+      <div class="flex justify-center">
+        <% flash.each do |type, msg| %>
+          <% case type %>
+            <% when 'alert' %>
+              <div class="p-4 w-9/12 rounded-xl bg-red-500 text-white text-center">
+                <%= msg %>
+              </div>
+            <% when 'else' %>
+              <div>
+                <%= msg %>
+              </div>
+          <% end %>
+        <% end %>
+      </div>
       <%= yield %>
     </main>
   </body>
