@@ -40,8 +40,7 @@ class ArticlesController < ApplicationController
     def destroy
         @article = Article.find(params[:id])
 
-        unless @article.comments.all.length > 0
-            @article.destroy
+        if @article.destroy
             redirect_to root_path
         else
             flash.now[:alert] = 'Article cannot be deleted when comments are associated'
