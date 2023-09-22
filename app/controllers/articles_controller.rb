@@ -13,6 +13,7 @@ class ArticlesController < ApplicationController
         @article = Article.new
     end
     
+    #TO DO : Pouvoir ajouter un auteur qui n'existe pas
     def create
         @article = Article.new(article_params)
 
@@ -48,6 +49,7 @@ class ArticlesController < ApplicationController
         end
     end
 
+    #TO DO REMOVE
     def getArticles
         render json: Article.all
     end
@@ -58,6 +60,6 @@ class ArticlesController < ApplicationController
 
     private
     def article_params
-      params.require(:article).permit(:title, :body, :status)
+      params.require(:article).permit(:title, :body, :status, :author_id)
     end
 end

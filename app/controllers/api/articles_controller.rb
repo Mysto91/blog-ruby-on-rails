@@ -7,6 +7,7 @@ class Api::ArticlesController < ApiController
         render json: Article.find(params[:id])
     end
 
+     #TO DO : Pouvoir ajouter un auteur qui n'existe pas
     def create
         article = Article.create(article_params)
 

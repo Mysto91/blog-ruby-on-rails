@@ -4,10 +4,10 @@
     Our blog has <%= Article.public_count %> articles and counting!
 </p>
 
-<ul class="flex gap-3 mt-4">
+<ul class="column-4 gap-3 mt-4">
     <% @articles.each do |article| %>
         <% unless article.archived? %>
-            <li class="border w-64 h-64">
+            <li class="inline-block border w-64 h-64">
                 <%= link_to article.title, 
                     article_path(article), 
                     class: "block h-full w-full font-bold flex items-center justify-center" 
