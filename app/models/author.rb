@@ -1,5 +1,7 @@
 class Author < ApplicationRecord
-    attr_reader :id
+    attr_reader :full_name
+
+    has_many :articles
 
     validates :full_name,
         presence: true,

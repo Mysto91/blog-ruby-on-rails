@@ -1,6 +1,4 @@
-class Api::AuthorsController < ApplicationController
-    protect_from_forgery with: :null_session
-
+class Api::AuthorsController < ApiController
     def index
         render json: Author.all
     end
