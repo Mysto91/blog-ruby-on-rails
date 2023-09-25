@@ -1,5 +1,14 @@
 require 'rails_helper'
 
+shared_examples 'when bad params' do |expected_body|
+  it 'should return bad request' do
+    post uri, params: { article: subject }
+
+    expect(response).to have_http_status :bad_request
+    expect(json).to eq expected_body
+  end
+end
+
 RSpec.describe 'Articles', type: :request do
   describe 'POST /api/articles' do
     let(:uri) { '/api/articles' }
@@ -8,13 +17,12 @@ RSpec.describe 'Articles', type: :request do
         title: Faker::Sports::Football.team,
         body: Faker::Lorem.paragraph,
         status: 'public',
-        author_id: 1
+        author_id: @author.id
       }
     end
 
     before do
-      @total_articles = 5
-      @existing_article = FactoryBot.create :article
+      @author = FactoryBot.create :author
     end
 
     it 'when params valid, article should be created' do
@@ -23,32 +31,114 @@ RSpec.describe 'Articles', type: :request do
       expect(response).to have_http_status :created
     end
 
-    it 'when title missing, should return bad request' do
-      invalid_params = params.dup
-      invalid_params.delete(:title)
+    context 'when title is missing' do
+      subject {
+        {
+          body: Faker::Lorem.paragraph,
+          status: 'public',
+          author_id: @author.id
+        }
+      }
 
-      post uri, params: { article: invalid_params }
-
-      expected_result = {
+      expected_body = {
         'title' => ["can't be blank"]
       }
 
-      expect(response).to have_http_status :bad_request
-      expect(json).to eq expected_result
+      include_examples 'when bad params', expected_body
     end
 
-    it 'when body missing, should return bad request' do
-      invalid_params = params.dup
-      invalid_params.delete(:body)
-
-      post uri, params: { article: invalid_params }
-
-      expected_result = {
-        'body' => ["can't be blank", 'is too short (minimum is 10 characters)']
+    context 'when body is missing' do
+      subject {
+        {
+          title: Faker::Sports::Football.team,
+          status: 'public',
+          author_id: @author.id
+        }
       }
 
-      expect(response).to have_http_status :bad_request
-      expect(json).to eq expected_result
+      expected_body = {
+        'body' => [
+          "can't be blank",
+          'is too short (minimum is 10 characters)'
+        ]
+      }
+
+      include_examples 'when bad params', expected_body
+    end
+
+    context 'when status is missing' do
+      subject {
+        {
+          title: Faker::Sports::Football.team,
+          body: Faker::Lorem.paragraph,
+          author_id: @author.id
+        }
+      }
+
+      expected_body = {
+        'status' => [
+          'is not included in the list'
+        ]
+      }
+
+      include_examples 'when bad params', expected_body
+    end
+
+    context 'when status is invalid' do
+      subject {
+        {
+          title: Faker::Sports::Football.team,
+          body: Faker::Lorem.paragraph,
+          author_id: @author.id,
+          status: 'invalid status'
+        }
+      }
+
+      expected_body = {
+        'status' => [
+          'is not included in the list'
+        ]
+      }
+
+      include_examples 'when bad params', expected_body
+    end
+
+    context 'when body is too short' do
+      subject {
+        {
+          title: Faker::Sports::Football.team,
+          body: 'short',
+          author_id: @author.id,
+          status: 'archived'
+        }
+      }
+
+      expected_body = {
+        'body' => [
+          'is too short (minimum is 10 characters)'
+        ]
+      }
+
+      include_examples 'when bad params', expected_body
+    end
+
+    context 'when author does not exist' do
+      subject {
+        {
+          title: Faker::Sports::Football.team,
+          body: Faker::Lorem.paragraph,
+          author_id: 9999,
+          status: 'archived'
+        }
+      }
+
+      expected_body = {
+        'author' => [
+          'must exist'
+        ]
+      }
+
+      include_examples 'when bad params', expected_body
     end
   end
 end
