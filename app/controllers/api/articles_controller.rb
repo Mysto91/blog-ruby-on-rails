@@ -1,4 +1,4 @@
-class Api::ArticlesController < ApiController
+class Api::ArticlesController < Api::ApiController
     def index
         render json: Article.all
     end
@@ -12,7 +12,7 @@ class Api::ArticlesController < ApiController
         article = Article.create(article_params)
 
         if article.save
-            render json: article
+            render json: article, status: :created
         else
             render json: article.errors, status: :bad_request
         end
