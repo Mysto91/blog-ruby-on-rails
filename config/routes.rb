@@ -1,9 +1,6 @@
 Rails.application.routes.draw do
   root 'articles#index'
 
-  #get "/api/articles", to: "articles#getArticles"
-  #get "/api/articles/:id", to: "articles#getArticle"
-
   namespace :api do
     resources :articles
     resources :authors
@@ -12,4 +9,6 @@ Rails.application.routes.draw do
   resources :articles do
     resources :comments
   end
+
+  get "api/current-date", to: "api/info#index"
 end
