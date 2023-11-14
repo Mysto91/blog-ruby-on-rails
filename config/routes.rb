@@ -10,5 +10,10 @@ Rails.application.routes.draw do
     resources :comments
   end
 
+  resource :session
+  resource :registration
+  resource :password_reset
+  resource :password
+
   get "api/current-date", to: "api/info#index"
 end
