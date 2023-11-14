@@ -78,3 +78,5 @@ end
 gem "tailwindcss-rails", "~> 2.0"
 
 gem "countries", "~> 5.6"
+
+gem "sidekiq", "~> 7.2"
